@@ -138,6 +138,10 @@ export default function Home() {
           </select>
         </div>
         <MapInput setLatitude={setLatitude} setLongitude={setLongitude} />
+        <div>
+          <p>Selected Latitude: {latitude}</p>
+          <p>Selected Longitude: {longitude}</p>
+        </div>
         <button
           type="submit"
           className="bg-blue-500 text-white p-2 rounded mt-4 hover:bg-blue-600"
