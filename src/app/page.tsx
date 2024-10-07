@@ -10,7 +10,7 @@ const markerIcon = new L.Icon({
   iconAnchor: [12, 41],
 });
 
-function LocationPicker({ setLatitude, setLongitude } : {setLatitude: any, setLongitude: any}) {
+function LocationPicker({ setLatitude, setLongitude }: { setLatitude: any, setLongitude: any }) {
   const [position, setPosition] = useState(null);
 
   const map = useMapEvents({
@@ -22,16 +22,10 @@ function LocationPicker({ setLatitude, setLongitude } : {setLatitude: any, setLo
     },
   });
 
-  return position === null ? null : (
-    <Marker position={position} icon={markerIcon}></Marker>
-  );
+  return position === null ? null : <Marker position={position} icon={markerIcon}></Marker>;
 }
 
-
-function MapInput() {
-  const [latitude, setLatitude] = useState("");
-  const [longitude, setLongitude] = useState("");
-
+function MapInput({ setLatitude, setLongitude }: { setLatitude: any, setLongitude: any }) {
   return (
     <div>
       <MapContainer
@@ -45,8 +39,6 @@ function MapInput() {
         />
         <LocationPicker setLatitude={setLatitude} setLongitude={setLongitude} />
       </MapContainer>
-      <p>Selected Latitude: {latitude}</p>
-      <p>Selected Longitude: {longitude}</p>
     </div>
   );
 }
@@ -55,9 +47,23 @@ export default function Home() {
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
   const [notificationTime, setNotificationTime] = useState("exact");
+  const [status, setStatus] = useState<'pending' | 'success' | 'error' | null>(null);
+  const [responseData, setResponseData] = useState(null);
+
+  const StatusModal = () => {
+    if (status === 'pending') {
+      return <div className="modal">Request is pending...</div>;
+    } else if (status === 'success') {
+      return <div className="modal">Request succeeded! Data: {JSON.stringify(responseData)}</div>;
+    } else if (status === 'error') {
+      return <div className="modal">Request failed. Please try again.</div>;
+    }
+    return null;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setStatus('pending');
 
     const data = {
       latitude,
@@ -65,18 +71,24 @@ export default function Home() {
       notificationTime,
     };
 
-    const response = await fetch("/api/notify_me", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    try {
+      const response = await fetch("/api/notify_me", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-    if (response.ok) {
-      alert("Notification request sent!");
-    } else {
-      alert("There was an error. Please try again.");
+      if (response.ok) {
+        const result = await response.json();
+        setResponseData(result);
+        setStatus('success');
+      } else {
+        setStatus('error');
+      }
+    } catch (error) {
+      setStatus('error');
     }
   };
 
@@ -125,7 +137,7 @@ export default function Home() {
             <option value="1_day_before">1 day before</option>
           </select>
         </div>
-        <MapInput />
+        <MapInput setLatitude={setLatitude} setLongitude={setLongitude} />
         <button
           type="submit"
           className="bg-blue-500 text-white p-2 rounded mt-4 hover:bg-blue-600"
@@ -133,6 +145,7 @@ export default function Home() {
           Submit
         </button>
       </form>
+      {status && <StatusModal />}
     </div>
   );
 }
