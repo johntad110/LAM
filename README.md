@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Satellite Notification Service
 
-## Getting Started
+![App Homepage](screenshots/homepage.png)
 
-First, run the development server:
+## Overview
+The **Satellite Notification Service** is a web application that allows users to get notified when a satellite passes over a selected location. Users can drop a pin on the map, enter coordinates manually, and choose how far in advance they would like to be notified.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
+- Interactive map for selecting coordinates (latitude and longitude).
+- Integration with USGS Landsat satellite data for accurate satellite pass information.
+- Multiple notification time options: at pass time, 1 hour before, 6 hours before, and 1 day before.
+- Simple and intuitive UI for users to manage their notification preferences.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Technologies Used
+- **Next.js**: React-based framework for server-side rendering and static site generation.
+- **React Leaflet**: For interactive map functionality.
+- **USGS Landsat API**: For retrieving satellite pass information.
+- **Tailwind CSS**: For styling the UI components.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Prerequisites
+- **Node.js** (v14+)
+- **npm** or **yarn**
 
-## Learn More
+### Steps
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/johntad110/LAM.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd LAM
+   ```
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+   or
+   ```bash
+   yarn install
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+   or
+   ```bash
+   yarn dev
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+5. Open the app in your browser:
+   ```
+   http://localhost:3000
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Usage
+- On the homepage, use the interactive map to select the location (latitude and longitude) by clicking on the map.
+- Fill in your notification preferences, such as when you want to be notified.
+- Submit the form, and the app will use the USGS Landsat data to send you the desired notification based on your settings.
 
-## Deploy on Vercel
+## API Integration
+This app integrates with the USGS Landsat API to retrieve satellite pass times and ensure accurate notification delivery.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contributing
+1. Fork the repository.
+2. Create a new feature branch: 
+   ```bash
+   git checkout -b feature/new-feature
+   ```
+3. Commit your changes: 
+   ```bash
+   git commit -m 'Add new feature'
+   ```
+4. Push to the branch: 
+   ```bash
+   git push origin feature/new-feature
+   ```
+5. Open a pull request.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
